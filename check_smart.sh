@@ -8,8 +8,8 @@
 #	Initial release.
 
 #	Super simple wrapper script that uses the fantastic smartmontools to report on SMART status of drives.
-#	Takes one arguments (disk ident) and users:
-#	./check_od_auth.sh diradmin password
+#	Takes one arguments (disk ident):
+#	./check_smart.sh disk ident
 
 # 	Make sure to point to your smartctl location if it is not in the same spot as mine.
 
@@ -24,7 +24,7 @@ if echo `/opt/local/libexec/nagios/smartctl -H $1` | grep -q "PASSED"
   		printf "OK - SMART Passed\n"
   		exit 0
 	else
-        printf "WARNING - SMART FAILURE!\n"
-		exit 1
+        printf "CRITICAL - SMART FAILURE!\n"
+		exit 2
 fi
 
