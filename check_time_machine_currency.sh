@@ -28,18 +28,20 @@ if echo $lastBackupDateString | grep -q 'does not exist'; then
 fi
 
 lastBackupDate=$(date -j -f "%Y-%m-%e %H:%M:%S %z" "$lastBackupDateString" "+%s" )
-
+currentDate=$(date "+%s")
 diff=$(( $currentDate - $lastBackupDate))
 warnSeconds=$(($warnMinutes * 60))
 critSeconds=$(($critMinutes * 60))
 
+lastMinutes=$(($diff / 60))
+
 if [ "$diff" -gt "$critSeconds" ]; then
-	printf "CRITICAL - Time Machine has not backed up in more than $critMinutes minutes!\n"
+	printf "CRITICAL - Time Machine has not backed up in more than $critMinutes minutes! (was $lastMinutes min.)\n"
 	exit 2
 elif [ "$diff" -gt "$warnSeconds" ]; then
-	printf "WARNING - Time Machine has not backed up in more than $warnMinutes minutes!\n"
+	printf "WARNING - Time Machine has not backed up in more than $warnMinutes minutes! (was $lastMinutes min.)\n"
 	exit 1
 fi
 
-printf "OK - A Time Machine backup has been taken within the last $warnMinutes minutes.\n"
+printf "OK - A Time Machine backup has been taken within the last $warnMinutes minutes. (was $lastMinutes min.)\n"
 exit 0
