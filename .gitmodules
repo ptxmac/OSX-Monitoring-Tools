@@ -1,0 +1,3 @@
+[submodule "check_postgres"]
+	path = check_postgres
+	url = git://bucardo.org/check_postgres.git
